@@ -1,48 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Water Game 💧</title>
+
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #eaf6ff;
+}
+
+h1 {
+  margin-top: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.card {
+  background: white;
+  width: 220px;
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>💧 Water Game</h1>
+<h3 id="question">Question 1 / 10</h3>
+
+<div class="container">
+  <div class="card" onclick="choose('A')">
+    <img id="imgA">
+    <h3 id="nameA"></h3>
+  </div>
+
+  <div class="card" onclick="choose('B')">
+    <img id="imgB">
+    <h3 id="nameB"></h3>
+  </div>
+</div>
+
+<p id="result"></p>
+<h2>Score : <span id="score">0</span></h2>
+
+<button onclick="startGame()">Rejouer</button>
+
+<script>
+
 const data = [
-{ name:"Rafael Nadal", water: 60, img:"https://upload.wikimedia.org/wikipedia/commons/5/5d/Rafael_Nadal_2011.jpg" },
+{ name:"Rafael Nadal en pleine interview", water:60, img:"https://upload.wikimedia.org/wikipedia/commons/5/5d/Rafael_Nadal_2011.jpg" },
 
-{ name:"Quad Yamaha Kodiak 450 EPS Olive Green", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/ATV_Yamaha.jpg" },
+{ name:"Quad Yamaha Kodiak 450 EPS Olive Green", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/ATV_Yamaha.jpg" },
 
-{ name:"Bûche glacée", water: 55, img:"https://upload.wikimedia.org/wikipedia/commons/5/5b/B%C3%BBche_de_No%C3%ABl_glac%C3%A9e.jpg" },
+{ name:"Bûche glacée en train de fondre dans une voiture", water:55, img:"https://upload.wikimedia.org/wikipedia/commons/5/5b/B%C3%BBche_de_No%C3%ABl_glac%C3%A9e.jpg" },
 
-{ name:"Téléphone fixe ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Rotary_phone.jpg" },
+{ name:"Téléphone fixe hanté qui sonne seul", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Rotary_phone.jpg" },
 
-{ name:"Pépin le Bref à la naissance", water: 70, img:"https://upload.wikimedia.org/wikipedia/commons/6/6e/Charlemagne_and_Pippin.jpg" },
+{ name:"Pépin le Bref bébé en pleine crise existentielle", water:70, img:"https://upload.wikimedia.org/wikipedia/commons/6/6e/Charlemagne_and_Pippin.jpg" },
 
-{ name:"Cerf-volant", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Kite_flying.jpg" },
+{ name:"Cerf-volant perdu depuis 2003 dans un arbre", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Kite_flying.jpg" },
 
-{ name:"Mousse à raser", water: 90, img:"https://upload.wikimedia.org/wikipedia/commons/5/5f/Shaving_cream.jpg" },
+{ name:"Mousse à raser utilisée par un alien stressé", water:90, img:"https://upload.wikimedia.org/wikipedia/commons/5/5f/Shaving_cream.jpg" },
 
-{ name:"Chaise", water: 5, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Chair.jpg" },
+{ name:"Chaise fatiguée de la vie", water:5, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Chair.jpg" },
 
-{ name:"Brique ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Brick_wall.jpg" },
+{ name:"Brique en pleine introspection philosophique", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Brick_wall.jpg" },
 
-{ name:"Clé USB contenant le sens de la vie (fichier corrompu)", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/1/1c/USB_flash_drive.jpg" },
+{ name:"Clé USB contenant un bug de l’univers", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/1/1c/USB_flash_drive.jpg" },
 
-{ name:"Cactus ", water: 85, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Cactus.jpg" },
+{ name:"Cactus en burn-out émotionnel", water:85, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Cactus.jpg" },
 
-{ name:"Lampe ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Lamp.jpg" },
+{ name:"Lampe qui éclaire des souvenirs tristes", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Lamp.jpg" },
 
-{ name:"Chaussure abandonnée ", water: 2, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Shoe.jpg" },
+{ name:"Chaussure perdue dans un désert émotionnel", water:2, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Shoe.jpg" },
 
-{ name:"Ordinateur ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/6/6a/Laptop_illustration.jpg" },
+{ name:"Ordinateur qui a trop scroll TikTok", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/6/6a/Laptop_illustration.jpg" },
 
-{ name:"Souris d’ordinateur ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/2/2e/Computer_mouse.jpg" },
+{ name:"Souris d’ordinateur en grève", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/2/2e/Computer_mouse.jpg" },
 
-{ name:"Nuage ", water: 99, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Clouds.jpg" },
+{ name:"Nuage dépressif qui pleure en silence", water:99, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Clouds.jpg" },
 
-{ name:"Bouteille d’eau vide ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Plastic_bottle.jpg" },
+{ name:"Bouteille d’eau émotionnellement vide", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Plastic_bottle.jpg" },
 
-{ name:"Parapluie ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Umbrella.jpg" },
+{ name:"Parapluie inutile sous une apocalypse solaire", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Umbrella.jpg" },
 
-{ name:"Télévision ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Old_television.jpg" },
+{ name:"Télévision qui diffuse du vide cosmique", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Old_television.jpg" },
 
-{ name:"Horloge ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Clock.jpg" }
+{ name:"Horloge qui a abandonné le temps", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Clock.jpg" }
 ];
 
+let A, B;
 let score = 0;
 let q = 0;
-let A, B;
 let used = [];
 
 function startGame(){
@@ -54,8 +132,10 @@ function startGame(){
 }
 
 function nextQuestion(){
+
   if(q >= 10){
-    document.getElementById("result").innerText = "🎉 Fin du jeu ! Score final : " + score + "/10";
+    document.getElementById("result").innerText =
+      "🎉 Fin du jeu ! Score : " + score + " / 10";
     return;
   }
 
@@ -74,10 +154,14 @@ function nextQuestion(){
   document.getElementById("nameA").innerText = A.name;
   document.getElementById("nameB").innerText = B.name;
 
-  document.getElementById("question").innerText = "Question " + (q+1) + " / 10";
+  document.getElementById("question").innerText =
+    "Question " + (q+1) + " / 10";
+
+  document.getElementById("result").innerText = "";
 }
 
 function choose(choice){
+
   let correct =
     (A.water > B.water && choice === "A") ||
     (B.water > A.water && choice === "B");
@@ -91,8 +175,9 @@ function choose(choice){
   }
 
   document.getElementById("score").innerText = score;
+
   q++;
-  setTimeout(nextQuestion, 1000);
+  setTimeout(nextQuestion, 900);
 }
 
 startGame();
