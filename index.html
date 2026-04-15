@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pourcentage d'eau 💧</title>
+</head>
+<body>
+  <h1>Quel objet contient le plus d'eau ?</h1>
+  <h2 id="optionA"></h2>
+  <h2 id="optionB"></h2>
+
+  <button onclick="choose('A')">Choisir A</button>
+  <button onclick="choose('B')">Choisir B</button>
+
+  <p id="result"></p>
+  <p>Score: <span id="score">0</span></p>
+
+<script>
+const data = [
+  {name: "Pastèque", water: 92},
+  {name: "Humain", water: 60},
+  {name: "Bois", water: 15},
+  {name: "Pomme", water: 85},
+  {name: "Pain", water: 40},
+  {name: "Concombre", water: 96}
+];
+
+let A, B;
+let score = 0;
+
+function newRound(){
+  A = data[Math.floor(Math.random()*data.length)];
+  B = data[Math.floor(Math.random()*data.length)];
+
+  document.getElementById("optionA").innerText = "A: " + A.name;
+  document.getElementById("optionB").innerText = "B: " + B.name;
+}
+
+function choose(choice){
+  let correct = (A.water > B.water && choice === 'A') ||
+                (B.water > A.water && choice === 'B');
+
+  if(correct){
+    score++;
+    document.getElementById("result").innerText = "Correct !";
+  } else {
+    document.getElementById("result").innerText =
+      "Faux ! A=" + A.water + "% | B=" + B.water + "%";
+  }
+
+  document.getElementById("score").innerText = score;
+  newRound();
+}
+
+newRound();
+</script>
+</body>
+</html>
