@@ -1,57 +1,103 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Pourcentage d'eau 💧</title>
-</head>
-<body>
-  <h1>Quel objet contient le plus d'eau ?</h1>
-  <h2 id="optionA"></h2>
-  <h2 id="optionB"></h2>
-
-  <button onclick="choose('A')">Choisir A</button>
-  <button onclick="choose('B')">Choisir B</button>
-
-  <p id="result"></p>
-  <p>Score: <span id="score">0</span></p>
-
-<script>
 const data = [
-  {name: "Pastèque", water: 92},
-  {name: "Humain", water: 60},
-  {name: "Bois", water: 15},
-  {name: "Pomme", water: 85},
-  {name: "Pain", water: 40},
-  {name: "Concombre", water: 96}
+{ name:"Rafael Nadal", water: 60, img:"https://upload.wikimedia.org/wikipedia/commons/5/5d/Rafael_Nadal_2011.jpg" },
+
+{ name:"Quad Yamaha Kodiak 450 EPS Olive Green", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/ATV_Yamaha.jpg" },
+
+{ name:"Bûche glacée", water: 55, img:"https://upload.wikimedia.org/wikipedia/commons/5/5b/B%C3%BBche_de_No%C3%ABl_glac%C3%A9e.jpg" },
+
+{ name:"Téléphone fixe ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Rotary_phone.jpg" },
+
+{ name:"Pépin le Bref à la naissance", water: 70, img:"https://upload.wikimedia.org/wikipedia/commons/6/6e/Charlemagne_and_Pippin.jpg" },
+
+{ name:"Cerf-volant", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Kite_flying.jpg" },
+
+{ name:"Mousse à raser", water: 90, img:"https://upload.wikimedia.org/wikipedia/commons/5/5f/Shaving_cream.jpg" },
+
+{ name:"Chaise", water: 5, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Chair.jpg" },
+
+{ name:"Brique ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Brick_wall.jpg" },
+
+{ name:"Clé USB contenant le sens de la vie (fichier corrompu)", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/1/1c/USB_flash_drive.jpg" },
+
+{ name:"Cactus ", water: 85, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Cactus.jpg" },
+
+{ name:"Lampe ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Lamp.jpg" },
+
+{ name:"Chaussure abandonnée ", water: 2, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Shoe.jpg" },
+
+{ name:"Ordinateur ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/6/6a/Laptop_illustration.jpg" },
+
+{ name:"Souris d’ordinateur ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/2/2e/Computer_mouse.jpg" },
+
+{ name:"Nuage ", water: 99, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Clouds.jpg" },
+
+{ name:"Bouteille d’eau vide ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Plastic_bottle.jpg" },
+
+{ name:"Parapluie ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Umbrella.jpg" },
+
+{ name:"Télévision ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Old_television.jpg" },
+
+{ name:"Horloge ", water: 0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Clock.jpg" }
 ];
 
-let A, B;
 let score = 0;
+let q = 0;
+let A, B;
+let used = [];
 
-function newRound(){
-  A = data[Math.floor(Math.random()*data.length)];
-  B = data[Math.floor(Math.random()*data.length)];
+function startGame(){
+  score = 0;
+  q = 0;
+  used = [];
+  document.getElementById("score").innerText = score;
+  nextQuestion();
+}
 
-  document.getElementById("optionA").innerText = "A: " + A.name;
-  document.getElementById("optionB").innerText = "B: " + B.name;
+function nextQuestion(){
+  if(q >= 10){
+    document.getElementById("result").innerText = "🎉 Fin du jeu ! Score final : " + score + "/10";
+    return;
+  }
+
+  let pool = data.filter(x => !used.includes(x));
+
+  A = pool[Math.floor(Math.random()*pool.length)];
+  used.push(A);
+
+  pool = pool.filter(x => x !== A);
+  B = pool[Math.floor(Math.random()*pool.length)];
+  used.push(B);
+
+  document.getElementById("imgA").src = A.img;
+  document.getElementById("imgB").src = B.img;
+
+  document.getElementById("nameA").innerText = A.name;
+  document.getElementById("nameB").innerText = B.name;
+
+  document.getElementById("question").innerText = "Question " + (q+1) + " / 10";
 }
 
 function choose(choice){
-  let correct = (A.water > B.water && choice === 'A') ||
-                (B.water > A.water && choice === 'B');
+  let correct =
+    (A.water > B.water && choice === "A") ||
+    (B.water > A.water && choice === "B");
 
   if(correct){
     score++;
-    document.getElementById("result").innerText = "Correct !";
+    document.getElementById("result").innerText = "✅ Correct !";
   } else {
     document.getElementById("result").innerText =
-      "Faux ! A=" + A.water + "% | B=" + B.water + "%";
+      "❌ Faux ! A=" + A.water + "% | B=" + B.water + "%";
   }
 
   document.getElementById("score").innerText = score;
-  newRound();
+  q++;
+  setTimeout(nextQuestion, 1000);
 }
 
-newRound();
+startGame();
+
 </script>
+
 </body>
 </html>
