@@ -74,20 +74,20 @@ button {
 // 🔹 DATA PROPRE ET COHÉRENT
 const data = [
 { name:"Rafael Nadal", water:60, img:"https://upload.wikimedia.org/wikipedia/commons/5/5d/Rafael_Nadal_2011.jpg" },
-{ name:"Quad Yamaha", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/ATV_Yamaha.jpg" },
+{ name:"Quad Yamaha Kodiak 450 EPS Olive Green", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/ATV_Yamaha.jpg" },
 { name:"Bûche glacée", water:55, img:"https://upload.wikimedia.org/wikipedia/commons/5/5b/B%C3%BBche_de_No%C3%ABl_glac%C3%A9e.jpg" },
-{ name:"Téléphone ancien", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Rotary_phone.jpg" },
-{ name:"Pépin le Bref", water:70, img:"https://upload.wikimedia.org/wikipedia/commons/6/6e/Charlemagne_and_Pippin.jpg" },
+{ name:"Pizza", water:50, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Rotary_phone.jpg" },
+{ name:"Pépin le Bref", water:60, img:"https://upload.wikimedia.org/wikipedia/commons/6/6e/Charlemagne_and_Pippin.jpg" },
 { name:"Cerf-volant", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Kite_flying.jpg" },
 { name:"Mousse à raser", water:90, img:"https://upload.wikimedia.org/wikipedia/commons/5/5f/Shaving_cream.jpg" },
-{ name:"Chaise", water:5, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Chair.jpg" },
+{ name:"Cerveau humain", water:73, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Chair.jpg" },
 { name:"Brique", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Brick_wall.jpg" },
-{ name:"Clé USB", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/1/1c/USB_flash_drive.jpg" },
+{ name:"Chaise", water:5, img:"https://upload.wikimedia.org/wikipedia/commons/1/1c/USB_flash_drive.jpg" },
 { name:"Cactus", water:85, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Cactus.jpg" },
-{ name:"Lampe", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Lamp.jpg" },
+{ name:"Dentifrice", water:30, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Lamp.jpg" },
 { name:"Chaussure", water:2, img:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Shoe.jpg" },
-{ name:"Ordinateur", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/6/6a/Laptop_illustration.jpg" },
-{ name:"Souris", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/2/2e/Computer_mouse.jpg" },
+{ name:"Os Humain", water:25, img:"https://upload.wikimedia.org/wikipedia/commons/6/6a/Laptop_illustration.jpg" },
+{ name:"Lave volcanique", water:2.5, img:"https://upload.wikimedia.org/wikipedia/commons/2/2e/Computer_mouse.jpg" },
 { name:"Nuage", water:99, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Clouds.jpg" },
 { name:"Bouteille vide", water:1, img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Plastic_bottle.jpg" },
 { name:"Parapluie", water:0, img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Umbrella.jpg" },
@@ -98,15 +98,15 @@ const data = [
 // 🔹 DUELS PROPRES
 const duels = [
 [0,1],
-[2,3],
-[4,5],
+[2,10],
+[4,3],
 [6,7],
 [8,9],
 [10,11],
 [12,13],
-[14,15],
+[11,13],
 [16,17],
-[18,19]
+[9,14]
 ];
 
 let A, B;
@@ -153,14 +153,17 @@ function choose(choice){
     (A.water > B.water && choice === "A") ||
     (B.water > A.water && choice === "B");
 
+  // 🔹 Toujours afficher les pourcentages
+  let message = "";
+
   if(correct){
     score++;
-    document.getElementById("result").innerText = "✅ Correct !";
+    message = "✅ Correct ! A=" + A.water + "% | B=" + B.water + "%";
   } else {
-    document.getElementById("result").innerText =
-      "❌ Faux ! A=" + A.water + "% | B=" + B.water + "%";
+    message = "❌ Faux ! A=" + A.water + "% | B=" + B.water + "%";
   }
 
+  document.getElementById("result").innerText = message;
   document.getElementById("score").innerText = score;
 
   q++;
